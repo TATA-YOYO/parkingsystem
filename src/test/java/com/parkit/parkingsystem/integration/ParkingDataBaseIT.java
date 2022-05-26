@@ -70,13 +70,13 @@ public class ParkingDataBaseIT {
     public void testParkingLotExit() throws Exception {
         // GIVEN
         when(inputReaderUtil.readSelection()).thenReturn(2);
-        when(inputReaderUtil.readVehicleRegistrationNumber()).thenReturn("ABCDEF");
+        when(inputReaderUtil.readVehicleRegistrationNumber()).thenReturn("1");
         testParkingACar();
         ParkingService parkingService = new ParkingService(inputReaderUtil, parkingSpotDAO, ticketDAO);
 
         //WHEN
         parkingService.processExitingVehicle();
-        Ticket ticket = ticketDAO.getTicket("ABCDEF");
+        Ticket ticket = ticketDAO.getTicket("1");
 
         //THEN
         assertTrue(ticket.getOutTime().getTime() != 0);
