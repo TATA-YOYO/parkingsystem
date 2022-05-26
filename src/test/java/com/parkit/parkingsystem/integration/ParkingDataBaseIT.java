@@ -58,10 +58,10 @@ public class ParkingDataBaseIT {
 
         //WHEN
         parkingService.processIncomingVehicle();
-        Ticket result = ticketDAO.getTicket("ABCDEF");
+        Ticket result =ticketDAO.getTicket("1");
 
         //THEN
-        assertTrue("ABCDEF" == result.getVehicleRegNumber());
+       assertTrue("ABCDEF"==result.getVehicleRegNumber());
         assertTrue(2 == parkingSpotDAO.getNextAvailableSlot(ParkingType.CAR));
 
     }
@@ -70,8 +70,8 @@ public class ParkingDataBaseIT {
     public void testParkingLotExit() throws Exception {
         // GIVEN
         when(inputReaderUtil.readSelection()).thenReturn(2);
-        when(inputReaderUtil.readVehicleRegistrationNumber()).thenReturn("1");
-        testParkingACar();
+        when(inputReaderUtil.readIDNumberRegistration()).thenReturn("1");
+
         ParkingService parkingService = new ParkingService(inputReaderUtil, parkingSpotDAO, ticketDAO);
 
         //WHEN
