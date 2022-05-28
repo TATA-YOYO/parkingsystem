@@ -16,6 +16,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.Date;
 
+import static com.parkit.parkingsystem.constants.Time.MILLISECOND_PER_HOUR;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
 
@@ -45,17 +46,19 @@ public class ParkingDataBaseIT {
     @BeforeEach
     private void setUpPerTest() {
         dataBasePrepareService.clearDataBaseEntries();
-        parkingSpot= new ParkingSpot(1,ParkingType.CAR,false);
+        parkingSpot = new ParkingSpot(1, ParkingType.CAR, false);
         parkingSpotDAO.updateParking(parkingSpot);
-        ticket= new Ticket();
+        ticket = new Ticket();
         ticket.setParkingSpot(parkingSpot);
-        ticket.setVehicleRegNumber("TEST");
-        ticket.setInTime(new Date());
+        ticket.setVehicleRegNumber("Car");
+        double oneHourLess = (new Date().getTime()) - MILLISECOND_PER_HOUR;
+        ticket.setInTime(new Date((long) oneHourLess));
         ticketDAO.saveTicket(ticket);
     }
 
     @AfterAll
     private static void tearDown() {
+        dataBasePrepareService.clearDataBaseEntries();
     }
 
 
@@ -68,17 +71,17 @@ public class ParkingDataBaseIT {
 
         //WHEN
         parkingService.processIncomingVehicle();
-        Ticket ticket =ticketDAO.getTicket("2");
+        Ticket ticket = ticketDAO.getTicket("2");
         String result = ticket.getVehicleRegNumber();
 
         //THEN
         assertEquals("ABCDEF", result);
         assertEquals(3, parkingSpotDAO.getNextAvailableSlot(ParkingType.CAR));
-
+        //TODO: check that a ticket is actualy saved in DB and Parking table is updated with availability
     }
 
     @Test
-    public void testParkingLotExit() throws Exception {
+    public void testParkingLotExitForCar() throws Exception {
         //GIVEN
         when(inputReaderUtil.readIDNumberRegistration()).thenReturn("1");
         ParkingService parkingService = new ParkingService(inputReaderUtil, parkingSpotDAO, ticketDAO);
@@ -89,7 +92,52 @@ public class ParkingDataBaseIT {
         double result = ticket.getOutTime().getTime();
 
         //THEN
-      assertNotEquals(0,result);
+        assertNotEquals(0, result);
+        assertNotEquals(0.0, ticket.getPrice());
+        //TODO: check that the fare generated and out time are populated correctly in the database
+    }
+
+    @Test
+    public void testParkingABike() throws Exception {
+        //GIVEN
+        when(inputReaderUtil.readSelection()).thenReturn(2);
+        when(inputReaderUtil.readVehicleRegistrationNumber()).thenReturn("ABCDEF");
+        ParkingService parkingService = new ParkingService(inputReaderUtil, parkingSpotDAO, ticketDAO);
+
+        //WHEN
+        parkingService.processIncomingVehicle();
+        Ticket ticket = ticketDAO.getTicket("2");
+        String result = ticket.getVehicleRegNumber();
+
+        //THEN
+        assertEquals("ABCDEF", result);
+        assertEquals(5, parkingSpotDAO.getNextAvailableSlot(ParkingType.BIKE));
+        //TODO: check that a ticket is actualy saved in DB and Parking table is updated with availability
+    }
+
+    @Test
+    public void testParkingLotExitForBike() throws Exception {
+        //GIVEN
+        when(inputReaderUtil.readIDNumberRegistration()).thenReturn("2");
+        ParkingService parkingService = new ParkingService(inputReaderUtil, parkingSpotDAO, ticketDAO);
+        parkingSpot = new ParkingSpot(4, ParkingType.BIKE, false);
+        parkingSpotDAO.updateParking(parkingSpot);
+        ticket = new Ticket();
+        ticket.setParkingSpot(parkingSpot);
+        ticket.setVehicleRegNumber("Bike");
+        double oneHourLess = (new Date().getTime()) - MILLISECOND_PER_HOUR;
+        ticket.setInTime(new Date((long) oneHourLess));
+        ticketDAO.saveTicket(ticket);
+
+        //WHEN
+        parkingService.processExitingVehicle();
+        Ticket ticket = ticketDAO.getTicket("2");
+        double result = ticket.getOutTime().getTime();
+
+        //THEN
+        assertNotEquals(0, result);
+        assertNotEquals(0.0, ticket.getPrice());
+        //TODO: check that the fare generated and out time are populated correctly in the database
     }
 
 }
