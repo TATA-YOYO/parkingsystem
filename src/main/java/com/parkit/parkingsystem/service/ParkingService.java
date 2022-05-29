@@ -15,11 +15,11 @@ public class ParkingService {
 
     private static final Logger logger = LogManager.getLogger("ParkingService");
 
-    private static FareCalculatorService fareCalculatorService = new FareCalculatorService();
+    private static final FareCalculatorService fareCalculatorService = new FareCalculatorService();
 
-    private InputReaderUtil inputReaderUtil;
-    private ParkingSpotDAO parkingSpotDAO;
-    private TicketDAO ticketDAO;
+    private final InputReaderUtil inputReaderUtil;
+    private final ParkingSpotDAO parkingSpotDAO;
+    private final TicketDAO ticketDAO;
 
     public ParkingService(InputReaderUtil inputReaderUtil, ParkingSpotDAO parkingSpotDAO, TicketDAO ticketDAO) {
         this.inputReaderUtil = inputReaderUtil;
@@ -60,7 +60,7 @@ public class ParkingService {
     }
 
     public ParkingSpot getNextParkingNumberIfAvailable() {
-        int parkingNumber = 0;
+        int parkingNumber;
         ParkingSpot parkingSpot = null;
         try {
             ParkingType parkingType = getVehichleType();
@@ -97,13 +97,13 @@ public class ParkingService {
         }
     }
 
-    private String getIDNumber() throws Exception {
-        System.out.println("Please type the ID number and press enter key");
-        return inputReaderUtil.readIDNumberRegistration();
+    private String getTicketIDNumber() throws Exception {
+        System.out.println("Please type the ticket ID number and press enter key");
+        return inputReaderUtil.readTicketIDNumberRegistration();
     }
     public void processExitingVehicle() {
         try {
-            String idNumber = getIDNumber();
+            String idNumber = getTicketIDNumber();
             Ticket ticket = ticketDAO.getTicket(idNumber);
             Date outTime = new Date();
             ticket.setOutTime(outTime);

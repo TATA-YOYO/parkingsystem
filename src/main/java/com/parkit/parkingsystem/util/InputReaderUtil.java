@@ -35,7 +35,7 @@ public class InputReaderUtil {
         }
     }
 
-    public String readIDNumberRegistration() throws Exception{
+    public String readTicketIDNumberRegistration() throws Exception{
         try{
             String IDNumber = scan.nextLine();
             if(IDNumber == null || IDNumber.trim().length()==0) {

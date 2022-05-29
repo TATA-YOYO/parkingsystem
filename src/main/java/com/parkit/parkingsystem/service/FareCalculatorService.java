@@ -21,7 +21,7 @@ public class FareCalculatorService {
             case CAR: {
                 if (duration <= Time.HALF_HOUR) {
                     break;
-                } else if (ticket.isDiscount() == true) {
+                } else if (ticket.isDiscount()) {
                     ticket.setPrice((duration * Fare.CAR_RATE_PER_HOUR) * Fare.DISCOUNT_RATE);
                     break;
                 } else {
@@ -32,7 +32,7 @@ public class FareCalculatorService {
             case BIKE: {
                 if (duration <= Time.HALF_HOUR) {
                     break;
-                } else if (ticket.isDiscount() == true) {
+                } else if (ticket.isDiscount()) {
                     ticket.setPrice((duration * Fare.BIKE_RATE_PER_HOUR) * Fare.DISCOUNT_RATE);
                     break;
                 } else {

@@ -57,6 +57,8 @@ public class TicketDAO {
                 ticket.setPrice(rs.getDouble(3));
                 ticket.setInTime(rs.getTimestamp(5));
                 ticket.setOutTime(rs.getTimestamp(6));
+                boolean discount = getDiscount(ticket.getVehicleRegNumber());
+                ticket.setDiscount(discount);
             }
             dataBaseConfig.closeResultSet(rs);
             dataBaseConfig.closePreparedStatement(ps);
@@ -64,8 +66,6 @@ public class TicketDAO {
             logger.error("Error fetching next available slot", ex);
         } finally {
             dataBaseConfig.closeConnection(con);
-            boolean discount = getDiscount(ticket.getVehicleRegNumber());
-            ticket.setDiscount(discount);
             return ticket;
         }
     }
@@ -78,7 +78,7 @@ public class TicketDAO {
             con = dataBaseConfig.getConnection();
             PreparedStatement ps = con.prepareStatement(DBConstants.GET_REGULAR_CUSTOMER);
             ps.setString(1, vehicleRegNumber);
-            ResultSet rs = ps.executeQuery(); // 1 = PARKING_NUMBER, 2 = ID, 3 = PRICE, 4 = VEHICLE_REG_NUMBER, 5 = IN_TIME, 6 = OUT_TIME, 7 = TYPE
+            ResultSet rs = ps.executeQuery();
             if (rs.next()) {
                 discount = (rs.getInt(1)> 1);
             }

@@ -83,7 +83,7 @@ public class ParkingDataBaseIT {
     @Test
     public void testParkingLotExitForCar() throws Exception {
         //GIVEN
-        when(inputReaderUtil.readIDNumberRegistration()).thenReturn("1");
+        when(inputReaderUtil.readTicketIDNumberRegistration()).thenReturn("1");
         ParkingService parkingService = new ParkingService(inputReaderUtil, parkingSpotDAO, ticketDAO);
 
         //WHEN
@@ -118,7 +118,7 @@ public class ParkingDataBaseIT {
     @Test
     public void testParkingLotExitForBike() throws Exception {
         //GIVEN
-        when(inputReaderUtil.readIDNumberRegistration()).thenReturn("2");
+        when(inputReaderUtil.readTicketIDNumberRegistration()).thenReturn("2");
         ParkingService parkingService = new ParkingService(inputReaderUtil, parkingSpotDAO, ticketDAO);
         parkingSpot = new ParkingSpot(4, ParkingType.BIKE, false);
         parkingSpotDAO.updateParking(parkingSpot);
