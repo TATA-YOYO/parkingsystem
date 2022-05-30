@@ -22,10 +22,14 @@ public class FareCalculatorService {
                 if (duration <= Time.HALF_HOUR) {
                     break;
                 } else if (ticket.isDiscount()) {
-                    ticket.setPrice((duration * Fare.CAR_RATE_PER_HOUR) * Fare.DISCOUNT_RATE);
+                    double fare = ((duration * Fare.CAR_RATE_PER_HOUR) * Fare.DISCOUNT_RATE);
+                    double fareRounded = Math.round(fare * 100.0) / 100.0;
+                    ticket.setPrice(fareRounded);
                     break;
                 } else {
-                    ticket.setPrice(duration * Fare.CAR_RATE_PER_HOUR);
+                    double fare = duration * Fare.CAR_RATE_PER_HOUR;
+                    double fareRounded = Math.round(fare * 100.0) / 100.0;
+                    ticket.setPrice(fareRounded);
                     break;
                 }
             }
@@ -33,10 +37,14 @@ public class FareCalculatorService {
                 if (duration <= Time.HALF_HOUR) {
                     break;
                 } else if (ticket.isDiscount()) {
-                    ticket.setPrice((duration * Fare.BIKE_RATE_PER_HOUR) * Fare.DISCOUNT_RATE);
+                    double fare = ((duration * Fare.BIKE_RATE_PER_HOUR) * Fare.DISCOUNT_RATE);
+                    double fareRounded = Math.round(fare * 100.0) / 100.0;
+                    ticket.setPrice(fareRounded);
                     break;
                 } else {
-                    ticket.setPrice(duration * Fare.BIKE_RATE_PER_HOUR);
+                    double fare = duration * Fare.BIKE_RATE_PER_HOUR;
+                    double fareRounded = Math.round(fare * 100.0) / 100.0;
+                    ticket.setPrice(fareRounded);
                     break;
                 }
             }
