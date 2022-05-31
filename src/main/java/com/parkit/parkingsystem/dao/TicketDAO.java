@@ -81,7 +81,7 @@ public class TicketDAO {
             ps.setString(1, vehicleRegNumber);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
-                discount = (rs.getInt(1)> 1);
+                discount = (rs.getInt(1) > 1);
             }
             dataBaseConfig.closeResultSet(rs);
             dataBaseConfig.closePreparedStatement(ps);
@@ -92,6 +92,28 @@ public class TicketDAO {
             return discount;
         }
     }
+
+    public int getID() {
+        int id = 0;
+        Connection con = null;
+        try {
+            con = dataBaseConfig.getConnection();
+            PreparedStatement ps = con.prepareStatement(DBConstants.GET_ID);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                id = rs.getInt(1);
+            }
+            dataBaseConfig.closeResultSet(rs);
+            dataBaseConfig.closePreparedStatement(ps);
+        } catch (Exception ex) {
+            logger.error("Error fetching next available slot", ex);
+        } finally {
+            dataBaseConfig.closeConnection(con);
+            return id;
+
+        }
+    }
+
 
     public boolean updateTicket(Ticket ticket) {
         Connection con = null;

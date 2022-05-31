@@ -10,7 +10,9 @@ import com.parkit.parkingsystem.model.Ticket;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
+
 import java.util.Date;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 
@@ -31,7 +33,6 @@ public class TicketDAOTest {
         dataBasePrepareService.clearDataBaseEntries();
         ParkingSpot parkingSpot = new ParkingSpot(1, ParkingType.CAR, false);
         ticket = new Ticket();
-        ticket.setId(1);
         ticket.setParkingSpot(parkingSpot);
         ticket.setVehicleRegNumber("TEST");
         ticket.setInTime(new Date());
@@ -70,5 +71,13 @@ public class TicketDAOTest {
 
         //Assert
         assertTrue(result);
+    }
+
+    @Test
+    public void getID() {
+        //Act
+        int result = ticketDAO.getID();
+        //Assert
+        assertNotEquals(0, result);
     }
 }

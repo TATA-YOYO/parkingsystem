@@ -9,4 +9,5 @@ public class DBConstants {
     public static final String UPDATE_TICKET = "update ticket set PRICE=?, OUT_TIME=? where ID=?";
     public static final String GET_TICKET = "select t.PARKING_NUMBER, t.ID, t.PRICE, t.VEHICLE_REG_NUMBER, t.IN_TIME, t.OUT_TIME, p.TYPE from ticket t,parking p where p.parking_number = t.parking_number and t.ID=? order by t.IN_TIME  limit 1";
     public static final String GET_REGULAR_CUSTOMER = "select count(PARKING_NUMBER) from ticket where VEHICLE_REG_NUMBER=?";
+    public static final String GET_ID = "select max(ID) from ticket";
 }
