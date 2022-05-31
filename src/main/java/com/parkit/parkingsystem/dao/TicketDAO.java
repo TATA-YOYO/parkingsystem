@@ -74,7 +74,6 @@ public class TicketDAO {
     private boolean getDiscount(String vehicleRegNumber) {
         boolean discount = false;
         Connection con = null;
-        Ticket ticket = null;
         try {
             con = dataBaseConfig.getConnection();
             PreparedStatement ps = con.prepareStatement(DBConstants.GET_REGULAR_CUSTOMER);
