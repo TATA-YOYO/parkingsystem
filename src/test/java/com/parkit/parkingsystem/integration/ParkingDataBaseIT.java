@@ -31,6 +31,7 @@ public class ParkingDataBaseIT {
     private static Ticket ticket;
 
     @Mock
+    //to automate testing
     private static InputReaderUtil inputReaderUtil;
 
     @BeforeAll
@@ -63,6 +64,9 @@ public class ParkingDataBaseIT {
 
     /**
      * this test verify a ticket is saved in the database when the "processIncomingVehicle" method is called for a car.
+     * <br>
+     *
+     * In "GIVEN" I bring in a car with "ABCDEF" in vehicle registration number.
      */
     @Test
     public void testParkingACar() throws Exception {
@@ -79,11 +83,14 @@ public class ParkingDataBaseIT {
         //THEN
         assertEquals("ABCDEF", result);
         assertEquals(3, parkingSpotDAO.getNextAvailableSlot(ParkingType.CAR));
-        //TODO: check that a ticket is actualy saved in DB and Parking table is updated with availability
+
     }
 
     /**
      * this test verify a ticket is saved in the database when the "processIncomingVehicle" method is called for a Bike
+     * <br>
+     *
+     * In "GIVEN" I bring in a bike with "ABCDEF" in vehicle registration number.
      */
     @Test
     public void testParkingABike() throws Exception {
@@ -100,12 +107,14 @@ public class ParkingDataBaseIT {
         //THEN
         assertEquals("ABCDEF", result);
         assertEquals(5, parkingSpotDAO.getNextAvailableSlot(ParkingType.BIKE));
-        //TODO: check that a ticket is actualy saved in DB and Parking table is updated with availability
+
     }
 
     /**
      * this test verify for a car if the "processExitingVehicle" method
      * saves the time of release and the price in the database.
+     *
+     * In "GIVEN" I bring in a car with "ABCDEF" in vehicle registration number.
      */
     @Test
     public void testParkingLotExitForCar() throws Exception {
@@ -121,12 +130,13 @@ public class ParkingDataBaseIT {
         //THEN
         assertNotEquals(0, result);
         assertNotEquals(0.0, ticket.getPrice());
-        //TODO: check that the fare generated and out time are populated correctly in the database
     }
 
     /**
      * this test verify for a Bike if the "processExitingVehicle" method
-     * saves the time of release and the price in the database.
+     * saves the time of release and the price in the database.<br>
+     *
+     * In "GIVEN" I bring in a bike.
      */
     @Test
     public void testParkingLotExitForBike() throws Exception {
@@ -150,11 +160,13 @@ public class ParkingDataBaseIT {
         //THEN
         assertNotEquals(0, result);
         assertNotEquals(0.0, ticket.getPrice());
-        //TODO: check that the fare generated and out time are populated correctly in the database
     }
 
     /**
+     *this test verify if a regular customer is detected and if it has a 5% discount.<br>
      *
+     * In the "GIVEN" I bring in, then exit, and then enter again a bike. During the first exiting
+     * i saved the price in "priceWithoutDiscount"
      */
     @Test
     public void testCalculatePriceForRegularCustomer() throws Exception {
