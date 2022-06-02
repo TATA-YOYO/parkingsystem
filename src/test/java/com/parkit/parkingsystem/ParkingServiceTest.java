@@ -24,17 +24,21 @@ public class ParkingServiceTest {
     private static ParkingService parkingService;
 
     @Mock
-    private static InputReaderUtil inputReaderUtil;
+    private static InputReaderUtil inputReaderUtil;//to automate testing
     @Mock
-    private static ParkingSpotDAO parkingSpotDAO;
+    private static ParkingSpotDAO parkingSpotDAO;//to simulate database access
     @Mock
-    private static TicketDAO ticketDAO;
+    private static TicketDAO ticketDAO;//to simulate database access
 
     @BeforeEach
     private void setUpPerTest() {
         parkingService = new ParkingService(inputReaderUtil, parkingSpotDAO, ticketDAO);
     }
 
+    /**
+     * This test checks if "processIncomingVehicle" method called right all methods necessary
+     *
+     */
     @Test
     public void processIncomingTest() throws Exception {
         //Arrange
@@ -51,7 +55,9 @@ public class ParkingServiceTest {
         verify(ticketDAO, Mockito.times(1)).saveTicket(any(Ticket.class));
 
     }
-
+    /**
+     * This test checks if "processExitingVehicle" method called right all methods necessary
+     */
     @Test
     public void processExitingVehicleTest() {
         //Arrange
@@ -79,7 +85,10 @@ public class ParkingServiceTest {
         verify(ticketDAO, Mockito.times(1)).getTicket(anyString());
 
     }
-
+    /**
+     * This test checks if "parkingService" called right "getNextParkingNumberIfAvailable" method
+     * and verify if the return value is not null
+     */
     @Test
     public void getNextParkingNumberIfAvailableTest() {
         //Arrange

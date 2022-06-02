@@ -31,8 +31,7 @@ public class ParkingDataBaseIT {
     private static Ticket ticket;
 
     @Mock
-    //to automate testing
-    private static InputReaderUtil inputReaderUtil;
+    private static InputReaderUtil inputReaderUtil; //To automate testing
 
     @BeforeAll
     private static void setUp() throws Exception {
@@ -45,7 +44,7 @@ public class ParkingDataBaseIT {
 
     @BeforeEach
     private void setUpPerTest() {
-        //some car is already in the parking lot
+        //With this some car is already in the parking lot, is useful for exit tests
         dataBasePrepareService.clearDataBaseEntries();
         parkingSpot = new ParkingSpot(1, ParkingType.CAR, false);
         parkingSpotDAO.updateParking(parkingSpot);

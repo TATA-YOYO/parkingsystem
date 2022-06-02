@@ -27,12 +27,12 @@ public class ParkingSpotDAOTest {
     @BeforeEach
     private void setupPerTests() {
         dataBasePrepareService.clearDataBaseEntries();
-    }
+    }//To clean up database
 
     @AfterAll
     private static void tearDown() {
         dataBasePrepareService.clearDataBaseEntries();
-    }
+    }//To clean up database
 
     @Test
     public void getNextAvailableSlotForCARTest() {
