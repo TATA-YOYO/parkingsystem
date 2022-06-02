@@ -40,11 +40,11 @@ public class ParkingDataBaseIT {
         ticketDAO = new TicketDAO();
         ticketDAO.dataBaseConfig = dataBaseTestConfig;
         dataBasePrepareService = new DataBasePrepareService();
-
     }
 
     @BeforeEach
     private void setUpPerTest() {
+        //some car is already in the parking lot
         dataBasePrepareService.clearDataBaseEntries();
         parkingSpot = new ParkingSpot(1, ParkingType.CAR, false);
         parkingSpotDAO.updateParking(parkingSpot);
@@ -61,7 +61,9 @@ public class ParkingDataBaseIT {
         dataBasePrepareService.clearDataBaseEntries();
     }
 
-
+    /**
+     * this test verify a ticket is saved in the database when the "processIncomingVehicle" method is called for a car.
+     */
     @Test
     public void testParkingACar() throws Exception {
         //GIVEN
@@ -80,23 +82,9 @@ public class ParkingDataBaseIT {
         //TODO: check that a ticket is actualy saved in DB and Parking table is updated with availability
     }
 
-    @Test
-    public void testParkingLotExitForCar() throws Exception {
-        //GIVEN
-        when(inputReaderUtil.readTicketIDNumberRegistration()).thenReturn("1");
-        ParkingService parkingService = new ParkingService(inputReaderUtil, parkingSpotDAO, ticketDAO);
-
-        //WHEN
-        parkingService.processExitingVehicle();
-        Ticket ticket = ticketDAO.getTicket("1");
-        double result = ticket.getOutTime().getTime();
-
-        //THEN
-        assertNotEquals(0, result);
-        assertNotEquals(0.0, ticket.getPrice());
-        //TODO: check that the fare generated and out time are populated correctly in the database
-    }
-
+    /**
+     * this test verify a ticket is saved in the database when the "processIncomingVehicle" method is called for a Bike
+     */
     @Test
     public void testParkingABike() throws Exception {
         //GIVEN
@@ -115,6 +103,31 @@ public class ParkingDataBaseIT {
         //TODO: check that a ticket is actualy saved in DB and Parking table is updated with availability
     }
 
+    /**
+     * this test verify for a car if the "processExitingVehicle" method
+     * saves the time of release and the price in the database.
+     */
+    @Test
+    public void testParkingLotExitForCar() throws Exception {
+        //GIVEN
+        when(inputReaderUtil.readTicketIDNumberRegistration()).thenReturn("1");
+        ParkingService parkingService = new ParkingService(inputReaderUtil, parkingSpotDAO, ticketDAO);
+
+        //WHEN
+        parkingService.processExitingVehicle();
+        Ticket ticket = ticketDAO.getTicket("1");
+        double result = ticket.getOutTime().getTime();
+
+        //THEN
+        assertNotEquals(0, result);
+        assertNotEquals(0.0, ticket.getPrice());
+        //TODO: check that the fare generated and out time are populated correctly in the database
+    }
+
+    /**
+     * this test verify for a Bike if the "processExitingVehicle" method
+     * saves the time of release and the price in the database.
+     */
     @Test
     public void testParkingLotExitForBike() throws Exception {
         //GIVEN
@@ -140,4 +153,34 @@ public class ParkingDataBaseIT {
         //TODO: check that the fare generated and out time are populated correctly in the database
     }
 
+    /**
+     *
+     */
+    @Test
+    public void TestCalculatePriceForRegularCustomer() throws Exception {
+        //GIVEN
+        when(inputReaderUtil.readTicketIDNumberRegistration()).thenReturn("2");
+        ParkingService parkingService = new ParkingService(inputReaderUtil, parkingSpotDAO, ticketDAO);
+        parkingSpot = new ParkingSpot(4, ParkingType.BIKE, false);
+        parkingSpotDAO.updateParking(parkingSpot);
+        ticket = new Ticket();
+        ticket.setParkingSpot(parkingSpot);
+        ticket.setVehicleRegNumber("Bike");
+        double oneHourLess = (new Date().getTime()) - MILLISECOND_PER_HOUR;
+        ticket.setInTime(new Date((long) oneHourLess));
+        ticketDAO.saveTicket(ticket);
+        parkingService.processExitingVehicle();
+        Ticket ticketTemp = ticketDAO.getTicket("2");
+        double priceWithoutDiscount = ticketTemp.getPrice();
+        ticketDAO.saveTicket(ticket);
+
+        //WHEN
+        parkingService.processExitingVehicle();
+        ticketTemp = ticketDAO.getTicket("2");
+        double result = ticketTemp.getPrice();
+
+        //THEN
+        assertEquals((0.95 * priceWithoutDiscount), result);
+
+    }
 }
