@@ -157,7 +157,7 @@ public class ParkingDataBaseIT {
      *
      */
     @Test
-    public void TestCalculatePriceForRegularCustomer() throws Exception {
+    public void testCalculatePriceForRegularCustomer() throws Exception {
         //GIVEN
         when(inputReaderUtil.readTicketIDNumberRegistration()).thenReturn("2");
         ParkingService parkingService = new ParkingService(inputReaderUtil, parkingSpotDAO, ticketDAO);

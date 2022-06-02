@@ -21,6 +21,7 @@ public class TicketDAO {
 
     public boolean saveTicket(Ticket ticket) {
         Connection con = null;
+        boolean isSaved =false;
         try {
             con = dataBaseConfig.getConnection();
             PreparedStatement ps = con.prepareStatement(DBConstants.SAVE_TICKET);
@@ -32,13 +33,15 @@ public class TicketDAO {
             ps.setTimestamp(4, new Timestamp(ticket.getInTime().getTime()));
             ps.setTimestamp(5, (ticket.getOutTime() == null) ? null : (new Timestamp(ticket.getOutTime().getTime())));
             ps.execute();
-            dataBaseConfig.closeConnection(con);
-            return true;
+            dataBaseConfig.closePreparedStatement(ps);
+            isSaved = true;
         } catch (Exception ex) {
-            dataBaseConfig.closeConnection(con);
+
             logger.error("Error fetching next available slot", ex);
-            return false;
+        }finally{
+            dataBaseConfig.closeConnection(con);
         }
+        return isSaved;
     }
 
     public Ticket getTicket(String IDNumber) {

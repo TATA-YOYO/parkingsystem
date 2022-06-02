@@ -186,7 +186,7 @@ public class FareCalculatorServiceTest {
     }
 
     @Test
-    public void CalculateFareCarForRegularCustomers (){
+    public void calculateFareCarForRegularCustomers(){
         //Arrange
         Date inTime = new Date();
         inTime.setTime( System.currentTimeMillis() - (  24 * 60 * 60 * 1000) );//24 hours parking time should give 24 * parking fare per hour
@@ -205,7 +205,7 @@ public class FareCalculatorServiceTest {
     }
 
     @Test
-    public void CalculateFareBikeForRegularCustomers (){
+    public void calculateFareBikeForRegularCustomers (){
         //Arrange
         Date inTime = new Date();
         inTime.setTime( System.currentTimeMillis() - (  24 * 60 * 60 * 1000) );//24 hours parking time should give 24 * parking fare per hour
