@@ -110,10 +110,10 @@ public class ParkingDataBaseIT {
     }
 
     /**
-     * this test verify for a car if the "processExitingVehicle" method
+     * This test verify for a car if the "processExitingVehicle" method
      * saves the time of release and the price in the database.
      *
-     * In "GIVEN" I bring in a car with "ABCDEF" in vehicle registration number.
+     * In "GIVEN" I give the ID of the ticket so that the exit process starts
      */
     @Test
     public void testParkingLotExitForCar() throws Exception {
@@ -135,7 +135,7 @@ public class ParkingDataBaseIT {
      * this test verify for a Bike if the "processExitingVehicle" method
      * saves the time of release and the price in the database.<br>
      *
-     * In "GIVEN" I bring in a bike.
+     * In "GIVEN" I bring in a bike to the parking, and i give the ID of the ticket so that the exit process starts
      */
     @Test
     public void testParkingLotExitForBike() throws Exception {
