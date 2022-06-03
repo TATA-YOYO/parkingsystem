@@ -34,6 +34,9 @@ public class ParkingSpotDAOTest {
         dataBasePrepareService.clearDataBaseEntries();
     }//To clean up database
 
+    /**
+     * this test verifies that the "getNextAvailableSlot" method returns the number of the next slot
+     */
     @Test
     public void getNextAvailableSlotForCARTest() {
         //Arrange
@@ -54,6 +57,9 @@ public class ParkingSpotDAOTest {
         assertEquals(4, result);
     }
 
+    /**
+     * this test checks if the update of the database is done well
+     */
     @Test
     public void updateParkingForCarTest() {
         //Arrange
