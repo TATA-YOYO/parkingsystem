@@ -55,7 +55,7 @@ public class ParkingService {
         }
     }
 
-    private String getVehicleRegNumber() throws Exception {
+    private String getVehicleRegNumber()  {
         System.out.println("Please type the vehicle registration number and press enter key");
         return inputReaderUtil.readVehicleRegistrationNumber();
     }
@@ -98,7 +98,7 @@ public class ParkingService {
         }
     }
 
-    private String getTicketIDNumber() throws Exception {
+    private String getTicketIDNumber()  {
         System.out.println("Please type the ticket ID number and press enter key");
         return inputReaderUtil.readTicketIDNumberRegistration();
     }

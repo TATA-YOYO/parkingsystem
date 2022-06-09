@@ -16,7 +16,7 @@ public class TicketDAO {
 
     public DataBaseConfig dataBaseConfig = new DataBaseConfig();
 
-    public boolean saveTicket(Ticket ticket) throws SQLException {
+    public boolean saveTicket(Ticket ticket) {
         Connection con = null;
         boolean isSaved = false;
         PreparedStatement ps=null;
@@ -40,7 +40,7 @@ public class TicketDAO {
         return isSaved;
     }
 
-    public Ticket getTicket(String IDNumber)throws SQLException {
+    public Ticket getTicket(String IDNumber) {
         Connection con = null;
         Ticket ticket = null;
         PreparedStatement ps=null;
@@ -76,7 +76,7 @@ public class TicketDAO {
         }
     }
 
-    private boolean getDiscount(String vehicleRegNumber)throws SQLException {
+    private boolean getDiscount(String vehicleRegNumber) {
         boolean discount = false;
         Connection con = null;
         PreparedStatement ps=null;
@@ -101,7 +101,7 @@ public class TicketDAO {
         }
     }
 
-    public int getID()throws SQLException {
+    public int getID() {
         int id = 0;
         Connection con = null;
         PreparedStatement ps=null;
@@ -127,7 +127,7 @@ public class TicketDAO {
     }
 
 
-    public boolean updateTicket(Ticket ticket) throws SQLException {
+    public boolean updateTicket(Ticket ticket)  {
         Connection con = null;
         PreparedStatement ps=null;
         try {
