@@ -91,7 +91,7 @@ public class ParkingServiceTest {
      * and verify if the return value is not null
      */
     @Test
-    public void getNextParkingNumberIfAvailableTest() {
+    public void getNextParkingNumberIfAvailableTest() throws SQLException {
         //Arrange
         when(inputReaderUtil.readSelection()).thenReturn(1);
         when(parkingSpotDAO.getNextAvailableSlot(any(ParkingType.class))).thenReturn(1);

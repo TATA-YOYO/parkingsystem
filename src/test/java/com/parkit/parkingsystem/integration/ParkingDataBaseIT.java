@@ -14,6 +14,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.sql.SQLException;
 import java.util.Date;
 
 import static com.parkit.parkingsystem.constants.Time.MILLISECOND_PER_HOUR;
@@ -43,7 +44,7 @@ public class ParkingDataBaseIT {
     }
 
     @BeforeEach
-    private void setUpPerTest() {
+    private void setUpPerTest() throws SQLException {
         //With this some car is already in the parking lot, is useful for exit tests
         dataBasePrepareService.clearDataBaseEntries();
         parkingSpot = new ParkingSpot(1, ParkingType.CAR, false);

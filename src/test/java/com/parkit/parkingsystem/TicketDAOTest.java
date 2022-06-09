@@ -29,7 +29,7 @@ public class TicketDAOTest {
     }
 
     @BeforeEach
-    private void setupPerTests() {
+    private void setupPerTests() throws SQLException {
         //With this some ticket is already in the DB
         dataBasePrepareService.clearDataBaseEntries();
         ParkingSpot parkingSpot = new ParkingSpot(1, ParkingType.CAR, false);
@@ -48,7 +48,7 @@ public class TicketDAOTest {
     }
 
     @Test
-    public void saveTicket() {
+    public void saveTicket() throws SQLException {
         //Act
         boolean result = ticketDAO.saveTicket(ticket);
         //Assert
@@ -59,7 +59,7 @@ public class TicketDAOTest {
      * this test checks if "ticketDAO.getTicket" method really get a ticket, and verify if it is not null
      */
     @Test
-    public void getTicketWithoutDiscountTest() {
+    public void getTicketWithoutDiscountTest() throws SQLException {
         //Act
         Ticket result = ticketDAO.getTicket("1");
 
@@ -78,7 +78,7 @@ public class TicketDAOTest {
     }
 
     @Test
-    public void getID() {
+    public void getID() throws SQLException {
         //Act
         int result = ticketDAO.getID();
         //Assert
