@@ -10,6 +10,7 @@ import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.sql.SQLException;
 import java.util.Date;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -68,7 +69,7 @@ public class TicketDAOTest {
     }
 
     @Test
-    public void updateTicket() {
+    public void updateTicket() throws SQLException {
         //Act
         boolean result = ticketDAO.updateTicket(ticket);
 

@@ -20,11 +20,13 @@ public class Ticket {
     }
 
     public ParkingSpot getParkingSpot() {
-        return parkingSpot;
+        ParkingSpot parkingSpotTemp= new ParkingSpot(parkingSpot.getId(), parkingSpot.getParkingType(),parkingSpot.isAvailable());
+        return parkingSpotTemp;
     }
 
     public void setParkingSpot(ParkingSpot parkingSpot) {
-        this.parkingSpot = parkingSpot;
+        ParkingSpot parkingSpotTemp= new ParkingSpot(parkingSpot.getId(), parkingSpot.getParkingType(),parkingSpot.isAvailable());
+        this.parkingSpot = parkingSpotTemp;
     }
 
     public String getVehicleRegNumber() {
@@ -44,19 +46,23 @@ public class Ticket {
     }
 
     public Date getInTime() {
-        return inTime;
+        Date inTimeTemp = new Date(inTime.getTime());
+        return inTimeTemp;
     }
 
     public void setInTime(Date inTime) {
-        this.inTime = inTime;
+        Date inTimeTemp = new Date(inTime.getTime());
+        this.inTime = inTimeTemp;
     }
 
     public Date getOutTime() {
-        return outTime;
+        Date outTimeTemp = new Date(outTime.getTime());
+        return outTimeTemp;
     }
 
     public void setOutTime(Date outTime) {
-        this.outTime = outTime;
+        Date outTimeTemp = new Date(outTime.getTime());
+        this.outTime = outTimeTemp;
     }
 
     public boolean isDiscount() {

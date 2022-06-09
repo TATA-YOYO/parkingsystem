@@ -194,4 +194,5 @@ public class ParkingDataBaseIT {
         assertEquals((0.95 * priceWithoutDiscount), result);
 
     }
+
 }

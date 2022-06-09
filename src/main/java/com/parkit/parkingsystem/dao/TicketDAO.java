@@ -8,10 +8,8 @@ import com.parkit.parkingsystem.model.Ticket;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.Timestamp;
+import java.beans.Statement;
+import java.sql.*;
 
 public class TicketDAO {
 
@@ -21,22 +19,21 @@ public class TicketDAO {
 
     public boolean saveTicket(Ticket ticket) {
         Connection con = null;
-        boolean isSaved =false;
+        boolean isSaved = false;
         try {
             con = dataBaseConfig.getConnection();
             PreparedStatement ps = con.prepareStatement(DBConstants.SAVE_TICKET);
-            // 1 = PARKING_NUMBER, 2 = VEHICLE_REG_NUMBER,3 = PRICE, 4 = IN_TIME, 5 = OUT_TIME)
+            // 1 = PARKING_NUMBER, 2 = VEHICLE_REG_NUMBER,3 = PRICE, 4 = IN_TIME)
             ps.setInt(1, ticket.getParkingSpot().getId());
             ps.setString(2, ticket.getVehicleRegNumber());
             ps.setDouble(3, ticket.getPrice());
             ps.setTimestamp(4, new Timestamp(ticket.getInTime().getTime()));
-            ps.setTimestamp(5, (ticket.getOutTime() == null) ? null : (new Timestamp(ticket.getOutTime().getTime())));
             ps.execute();
             dataBaseConfig.closePreparedStatement(ps);
             isSaved = true;
         } catch (Exception ex) {
             logger.error("Error fetching next available slot", ex);
-        }finally{
+        } finally {
             dataBaseConfig.closeConnection(con);
         }
         return isSaved;
@@ -58,7 +55,9 @@ public class TicketDAO {
                 ticket.setVehicleRegNumber(rs.getString(4));
                 ticket.setPrice(rs.getDouble(3));
                 ticket.setInTime(rs.getTimestamp(5));
-                ticket.setOutTime(rs.getTimestamp(6));
+                if (rs.getTimestamp(6) != null) {
+                    ticket.setOutTime(rs.getTimestamp(6));
+                }
                 boolean discount = getDiscount(ticket.getVehicleRegNumber());
                 ticket.setDiscount(discount);
             }
@@ -115,21 +114,24 @@ public class TicketDAO {
     }
 
 
-    public boolean updateTicket(Ticket ticket) {
+    public boolean updateTicket(Ticket ticket) throws SQLException {
         Connection con = null;
+        PreparedStatement ps=null;
         try {
             con = dataBaseConfig.getConnection();
-            PreparedStatement ps = con.prepareStatement(DBConstants.UPDATE_TICKET);
+            ps = con.prepareStatement(DBConstants.UPDATE_TICKET);
             ps.setDouble(1, ticket.getPrice());
             ps.setTimestamp(2, new Timestamp(ticket.getOutTime().getTime()));
             ps.setInt(3, ticket.getId());
             ps.execute();
+            ps.close();
             dataBaseConfig.closePreparedStatement(ps);
             return true;
         } catch (Exception ex) {
             logger.error("Error saving ticket info", ex);
         } finally {
             dataBaseConfig.closeConnection(con);
+            ps.close();
         }
         return false;
     }

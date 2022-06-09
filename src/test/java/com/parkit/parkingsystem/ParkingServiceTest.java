@@ -14,6 +14,7 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.sql.SQLException;
 import java.util.Date;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.mockito.Mockito.*;
@@ -59,7 +60,7 @@ public class ParkingServiceTest {
      * This test checks if "processExitingVehicle" method called right all methods necessary
      */
     @Test
-    public void processExitingVehicleTest() {
+    public void processExitingVehicleTest() throws SQLException {
         //Arrange
         try {
             when(inputReaderUtil.readTicketIDNumberRegistration()).thenReturn("1");
